@@ -3,7 +3,7 @@ name: OWASP ZAP Security Scan
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   zap_scan:
