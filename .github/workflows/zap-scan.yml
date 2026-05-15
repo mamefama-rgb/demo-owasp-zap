@@ -1,0 +1,33 @@
+name: OWASP ZAP Security Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    name: Scan de sécurité OWASP ZAP
+
+    steps:
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: ZAP Full Scan
+        uses: zaproxy/action-full-scan@v0.10.0
+        with:
+          target: 'https://demo.testfire.net'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+          fail_action: false
+
+      - name: Upload du rapport ZAP
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rapport-zap
+          path: report_html.html
