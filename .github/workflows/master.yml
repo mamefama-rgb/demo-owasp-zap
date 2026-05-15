@@ -13,7 +13,7 @@ jobs:
     steps:
 
       - name: Checkout du code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.10.0
@@ -21,12 +21,14 @@ jobs:
           target: 'https://demo.testfire.net'
           fail_action: false
           allow_issue_writing: false
-          artifact_name: 'zap-rapport'
 
       - name: Upload rapport ZAP
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: zap-rapport
-          path: report_html.html
+          path: |
+            report_html.html
+            report_json.json
           retention-days: 7
+          if-no-files-found: warn
