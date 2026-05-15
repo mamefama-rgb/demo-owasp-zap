@@ -9,10 +9,11 @@ jobs:
   zap_scan:
     runs-on: ubuntu-latest
     name: Scan de sécurité OWASP ZAP
+
     steps:
 
       - name: Checkout du code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: ZAP Full Scan
         uses: zaproxy/action-full-scan@v0.10.0
@@ -20,10 +21,12 @@ jobs:
           target: 'https://demo.testfire.net'
           fail_action: false
           allow_issue_writing: false
+          artifact_name: 'zap-rapport'
 
-      - name: Upload du rapport ZAP
-        uses: actions/upload-artifact@v4
+      - name: Upload rapport ZAP
+        uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: rapport-zap
+          name: zap-rapport
           path: report_html.html
+          retention-days: 7
